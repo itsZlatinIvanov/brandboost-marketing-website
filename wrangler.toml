@@ -1,0 +1,13 @@
+name = "clyc-website"
+compatibility_date = "2025-03-02"
+
+# Point to the workers script
+main = "workers-site/index.js"
+
+# Remove the type = "webpack" line as it's not needed for Workers Sites
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./clyc-platform:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/clyc
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=30ISufhn/ZMP4qwP7xNruMVf+uz8TTbS1eo52BPxUxo=
+      - JWT_SECRET=m997EDhBfMc+d0cEvVpzFyvfK+C0NIm9pEFX2qGCJyk=
+      - NOTION_API_KEY=ntn_c93409715119QmpknU6BqmJzKWL0mgwbt3ou10g8qNS2zp
+      - GOOGLE_SERVICE_ACCOUNT_EMAIL=clyc-platform@manifest-access-452620-p9.iam.gserviceaccount.com
+      - GOOGLE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC4dMvJu28LVW+i\n4V0KG+uMXZ9SuSdxn8yXoXfFAVfIc5gvxoPFMJHepGO9K1Nkwsuc8XNGwFmDw5oU\nMy5zP3+vkqUt/gcS0nTH9nx1qYQF64KmyaGH1mSQUDCvmFOvdPeC4NEXOXlfgFOx\nLiP4m/vpCDLEVEBVfMsgvcoFicWfURtuKsaSwud4Nmn0AeQk0AyANIfmVyvVj3Uy\nG+CuHa3XzT2BcgScQA9SJbDU8kJVpx3+v7COQg93a2sROePfJ4PTsEb3SkqTFxXK\nL4RH/pZhnI4SXFpIYrZt1d6KpGbyty0pyFv9dc0VjrKy1fXFT6BQ4p8xBZMVhJFe\nF8UErpHxAgMBAAECggEAEN0AqoM7vi4D5EC1OFDgIneGstHhlMY2tqAY6oZaZ6WF\nwsxjzJnJpDCkO62j1KDoa4M5djzskhrGUdVyCDBEdKEz/7XrIKHj8koLC9jBDKeA\nzM2/OkNz8yuZn9wNvosze6AhDX4AJiZ9wEOHH1nnWGEa/w7yyL39dhNTzljPm+Zv\nCcbUy10fxzz4s28jQT2a91e6XHl1uiBcwcgBOQnjGevq9mOt/cQT+zw22mm88qbG\nGX+RzienCJrHngvHi3jZETWrVXUcj/8TYCcniw/3vqHSzAsTqVL2U/dN2tYzOdTs\nByXVsUy10x9klNuXXsGOqkTZqQYD2HQEQdEXqFHJ5wKBgQDn788iHzXfyFup83Gp\n8TwCtxgfpp3JhsYkfbfRzrygNA8qP+AueD6xVeQHTA2VQ1jkzVXLhadbGzROJXoj\ncr2Ts9ov5imielqWUks2BxOwHoRWsCKMS8P+upwzF78GAZ5T2fe+S3+oOfYFRkPs\n5+Ly8Gxx/BajHM3wNFHWthI2cwKBgQDLl+oXgeOsugNM/BAELZo5jouILclQCcc0\nipI0CxsPZkzJ/LrnBSy5g9fHzTBUnAxvJVYDd5cLFd94UmJYm2We8LK1ywO6vhA0\nuouCm0OGHyMCC2NelHIgEHjDmuLl1+cvO7I+aGOw8jCV0/Z/dfa1+O7XWhPAoZPB\nUpANkNcZCwKBgQCUO1q5ZxMKc8XJp3IEd82vuo7rY5RCgSVPmx2JNMSu6raqfOpt\nKKKAufEjjMK9m65LhMQJb+EWxBs4upEF6MYqiO6wYDxJwEL3AZ9Z50n47HgN40Ih\nQicAPQmpScrnLs+erZa9gwkSXgDTPCYbWdRdCbV1X/SjyLwBgZ6wR+r56wKBgQCM\nR2wALnsVNEW58aOHfXRaXCE//2xKPbKIPUJnoY9PmQkn039kVmhumq0++d5nLe5T\nVsJhOTFVbgi/+uPQcaIfVXGNWQiEzxiTfEVMBHcOHr4cVoRtUpMgDLlo7XuRKqYc\nIWG7JmoqLXXUhmu9fyYyVAcdUu9xNuN7vMuMzVOn6QKBgAkjhneoxhRBq05LmAIE\nxr7HJda0+zetXETrjgsQU7qsMb6vvkonsd5EejxZYfkynQlueZWWWqp6lACKS7zI\nrnkohJr20w3T0Sei9a/80PoN+BDusdbue/O/PWbqccOgD/rhUy5R8WUTMpQqeeV8\n3JL5xX5xT9Z0BwzzfyFApbqq\n-----END PRIVATE KEY-----\n
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm run dev"
+
+  db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: clyc
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Optional local storage emulator for development
+  storage:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  postgres_data:
+  minio_data: 

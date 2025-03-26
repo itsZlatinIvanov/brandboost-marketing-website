@@ -1,0 +1,310 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* Simple CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+ 
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+ 
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+ 
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+ 
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+ 
+    --radius: 0.5rem;
+  }
+  
+  /* Apply base styles */
+  body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+ 
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+ 
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+ 
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+ 
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+ 
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+ 
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+ 
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom utility class for hiding scrollbars */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Add indicator for testimonials with videos */
+.video-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(14, 165, 233, 0.9);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Custom animation for testimonial focus */
+@keyframes soft-glow {
+  0% { box-shadow: 0 0 5px rgba(14, 165, 233, 0.2); }
+  50% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
+  100% { box-shadow: 0 0 5px rgba(14, 165, 233, 0.2); }
+}
+
+.testimonial-focus {
+  animation: soft-glow 3s infinite;
+  transform: scale(1.05);
+  z-index: 5;
+  border-color: rgba(14, 165, 233, 0.5);
+  background-color: white;
+}
+
+/* Process step animations */
+.step-circle {
+  transition: all 0.3s ease-out;
+  will-change: transform, box-shadow, background-color;
+}
+
+.step-active {
+  transition: all 0.2s ease-out;
+  box-shadow: 0 0 15px rgba(30, 174, 219, 0.7);
+}
+
+/* Reduced scrolling animation duration for smoother scrolling */
+.smooth-scroll {
+  transition: transform 0.5s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  will-change: transform;
+}
+
+/* Modal styles */
+body.modal-open {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none !important;
+  -ms-touch-action: none !important;
+}
+
+/* Add smooth scrolling to modal content */
+.overscroll-behavior-contain {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Enhanced case studies visual evidence sections */
+.visual-evidence-section {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.visual-evidence-header {
+  padding: 1rem;
+  background-color: rgba(249, 250, 251, 1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.visual-evidence-content {
+  padding: 1rem;
+  background-color: white;
+}
+
+/* Custom transformation showcase styles */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric-card {
+  background-color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(229, 231, 235, 1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(17, 24, 39, 1);
+  margin-bottom: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: rgba(107, 114, 128, 1);
+}
+
+.social-post {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(229, 231, 235, 1);
+  overflow: hidden;
+}
+
+.social-post-header {
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(229, 231, 235, 1);
+}
+
+.social-post-content {
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: rgba(55, 65, 81, 1);
+}
+
+.social-post-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: rgba(249, 250, 251, 1);
+  font-size: 0.75rem;
+  color: rgba(107, 114, 128, 1);
+}
+
+.before-after-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.before-after-card {
+  border: 1px solid rgba(229, 231, 235, 1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.before-after-header {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.before-after-image {
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  border-top: 1px solid rgba(229, 231, 235, 1);
+  border-bottom: 1px solid rgba(229, 231, 235, 1);
+}
+
+.video-thumbnail {
+  @apply relative rounded-lg overflow-hidden;
+}
+
+.video-play-button {
+  @apply absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity;
+}
+
+/* Prevent scroll on body when modal is displayed */
+body:has([aria-modal="true"]) {
+  overflow: hidden !important;
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+/* Modal styles for proper display */
+[aria-modal="true"] {
+  z-index: 50;
+}
+
+/* Fix iframe in modal to ensure they receive clicks */
+.aspect-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: auto;
+  z-index: 1;
+}
