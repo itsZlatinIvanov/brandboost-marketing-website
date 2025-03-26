@@ -40,4 +40,10 @@ dist-ssr
 .env.production.local
 
 # Vite cache
-.vite 
+.vite .env.*
+
+# Security and sensitive data
+*.pem
+*.key
+*secret*
+*credentials*
